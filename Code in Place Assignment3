@@ -1,1 +1,386 @@
+Syntax needed for Assignment3
+Tutorial
+Q1-Q5 Assignment questions complited
+In [ ]:
 
+#Import simpleimage library
+from simpleimage import SimpleImage
+​
+#Read image from a filename
+image = SimpleImage (filename)
+​
+​
+​
+In [ ]:
+
+#Loop over pixels in an image
+​
+for pixel in image:
+    # Use pixel in here
+​
+In [ ]:
+
+#Access data inside an element
+Color properties: pixel.red, pixel.green, pixel.blue 
+Location properties: pixel.x, pixel.y
+    
+In [ ]:
+
+#Displaying the image
+image.show()
+In [ ]:
+
+#Accessing Image Size
+image.width, image.height
+In [ ]:
+
+#Create a blank image with specified dimensions
+image = SimpleImage.blank(width, height)
+In [ ]:
+
+#Accessing pixel from coordinates
+pixel = image.get_pixel(x, y)
+​
+In [ ]:
+
+#Set a pixel with coordinates
+image.set_pixel(x, y, pixel)
+In [ ]:
+
+#Resize an image to be the same size as another image
+image.make_as_big_as(target_image)
+In [ ]:
+
+#Nested Loop over pixels in an image
+for x in range(image.width):
+    for y in range(image.height):
+        pixel = image.get_pixel(x, y)
+        # Use pixel in here
+What is an image?
+An image is made of square pixels.
+Each pixel has single color encoded as 3 RGB values, where R = red, G = green, and B = blue. Each value represents brightness for that color (red, green, or blue). You can set RGB values to make any color!
+SimpleImage Library In folders for assignment or lecture on images, there is a file simpleimage.py . This is the SimpleImage library, and you will use this library to work with images.
+To use the SimpleImage library in your code, include at the top of your program file:
+from simpleimage import SimpleImage This is importing the SimpleImage module, so that it is accessible in the code you write. This is similar to when you used import random to use the random number generator library
+Each SimpleImage object is made up of Pixel objects
+Functions in SimpleImage Library You can create a SimpleImage object by reading an image from file (jpg, png, gif, etc.) and storing it in a variable
+my_image = SimpleImage(filename) To show the image on your computer:
+my_image.show() Accessing Pixels in an Image We can use a new kind of loop called a "for-each" loop. Here's what it looks like:
+for item in collection: #do something with them
+Here's how to use a for-each loop with an image:
+image = SimpleImage("flower.jpg") for pixel in image: # The code here gets repeated once for each pixel in image Properties of Images and Pixels Each SimpleImage image has properties you can access. For example, this is how you can access the width and height of an image:
+image.width, image.height Each pixel in an image also has properties:
+You can get the x and y coordinates of a pixel in an image:
+pixel.x, pixel.y You can also get the RGB values of a pixel, which are integers between 0 and 255. Higher R, G, B values means that there is more of that color present in the pixel.
+pixel,red, pixel.green, pixel.blue
+In [ ]:
+
+"""Now, let's look at some examples.
+This function, darker, returns a darker version of an image."""
+​
+def darker(filename): 
+   """
+   Reads image from file specified by filename. 
+   Makes image darker by halving red, green, blue values
+   Returns the darker version of image.
+   """
+​
+   img = SimpleImage(filename)
+   for px in image: 
+      px.red = px.red // 2
+      px.green = px.green // 2
+      px.blue = px.blue // 2
+   return img
+​
+In [ ]:
+
+#This function, red_channel, returns a red-shaded version of an image.
+​
+def red_channel(filename): 
+   """
+   Reads image from file specified by filename. 
+   Changes the image as follows:
+   For every pixel, set green and blue values to 0, 
+   yielding the red channel. 
+   Return the changed image.
+   """
+​
+   img = SimpleImage(filename)
+   for px in image: 
+      px.red = pix.red // 2
+      px.green = 0
+      px.blue = 0
+   return img
+In [ ]:
+
+#Let's take these functions for a spin!
+​
+def main(): 
+   """
+   Run your desired image manipulation functions here. 
+   You should store the return value (image) and then 
+   call .show() to visualize the output of your program.
+   """
+   
+   # The name of the image file is called flower.png and it is in the 
+   # images folder, so to access the file we do: 'images/flower.png'
+   
+   original_flower = SimpleImage('images/flower.png') 
+   original_flower.show() # displays the original image 
+​
+   dark_flower = darker('images/flower.png')
+   dark_flower.show()
+​
+   red_flower = red_channel('images/flower.png')
+   red_flower.show()
+In [ ]:
+
+#Nested For vs For Each Pixel
+#What's the difference?
+​
+#For-each loop
+def darker(filename): 
+   img = SimpleImage(filename)
+   for px in image: 
+      px.red = pix.red // 2
+      px.green = pix.green // 2
+      px.blue = pix.blue // 2
+   return img
+​
+#Nested For-loop
+def darker(filename): 
+   img = SimpleImage(filename)
+   for y in range(img.height): 
+      for x in range(img.width):  
+         px.red = pix.red // 2
+         px.green = pix.green // 2
+         px.blue = pix.blue // 2
+   return img
+​
+#Nothing! Both functions above do the exact same thing: 
+#make an image darker. 
+#We only want to use nested for loops if we care about x and y .
+Mirroring an Image For this program, we are given an image, and we want to return an image that includes the original image and its mirror reflection. How can we write a program that gives us the mirror image? We will need access to the x and y values of the pixels in the original image. In our output image, we want to set the corresponding x and y coordinates of the original image and the mirror image to be the same color.
+We can use a nested for-loop to do this!
+In [ ]:
+
+#Here's how:
+​
+def mirror_image(filename): 
+   """
+   Reads image from file specified by filename. 
+   Returns a new image that includes the original image 
+   and its mirror reflection.   
+   """
+   
+   image = SimpleImage(filename)
+   width = image.width
+   height = image.height 
+​
+   # Create new image to contain mirror reflection
+   mirror = SimpleImage.blank(width * 2, height)
+​
+  for y in range(height): 
+     for x in range(width): 
+        pixel = image.get_pixel(x,y)
+        mirror.set_pixel(x, y, pixel)
+        mirror.set_pixel((width * 2) - (x+1), y, pixel)
+​
+  return mirror
+Add Border
+Need an extra challenge? How would you add a black border to an image?
+Define a function
+def add_border(original_img, border_size): """ This function returns a new SimpleImage which is the same as original image except with a black border added around it. The border should be border_size many pixels thick.
+Inputs:
+    - original_img: The original image to process
+    - border_size: The thickness of the border to add around the image
+
+Returns:
+    A new SimpleImage with the border added around original image
+"""
+This function should take an image and add a border of size border_size to each side (top, left, bottom, right) of the image. So for example if we added a border of size border_size = 10 pixels to the simba-sq.jpg image we would get this:
+Here is the original for reference:
+Notice that the bordered image is 20 pixels wider and 20 pixels higher.
+In [ ]:
+
+from simpleimage import SimpleImage
+​
+TRIM_AMOUNT = 30
+​
+def main():
+    image = SimpleImage('images/karel.png')
+    trimmed_image = trim_crop_image(image, TRIM_AMOUNT)
+    trimmed_image.show()
+​
+​
+def trim_crop_image(original_image, trim_size):
+    """
+    This function returns a new SimpleImage which is a trimmed and
+    cropped version of the original image by shaving trim_size pixels
+    from each side (top, left, bottom, right) of the image. You may
+    assume trim_size is less than half the width of the image.
+​
+    Inputs:
+        - original_img: The original image to process
+        - trim_size: The number of pixels to shave from each side
+                   of the original image
+​
+    Returns:
+        A new SimpleImage with trim_size pixels shaved off each
+        side of the original image
+    """
+    new_width = original_image.width - (trim_size * 2)
+    new_height = original_image.height - (trim_size * 2)
+    trimmed_image = SimpleImage.blank(new_width, new_height)
+    for y in range(new_height): 
+        for x in range(new_width): 
+            pixel = original_image.get_pixel((x + trim_size),(y + trim_size))
+            trimmed_image.set_pixel(x, y, pixel)
+    return trimmed_image
+​
+    
+if __name__ == '__main__':
+    main()
+Q1: Code in Place Filter
+Write a program that asks the user to enter an image file, loads that file and applies the “Code in Place” filter.
+To apply the Code in Place filter, you are going to change every pixel to have the following new red, green and blue values, based off the pixels old red, green and blue values:
+new red value = old red value * 1.5 new green value = old green value * 0.7 new blue value = old blue value * 1.5 Problem written by Chris Piech. Inspired by image library and examples from Nick Parlante.
+In [ ]:
+
+"""
+This program implements a red image filter for images/quad.jpg from
+/home/codeinplace_filter.py
+"""
+​
+import random
+from simpleimage import SimpleImage
+​
+DEFAULT_FILE = 'images/quad.jpg'
+​
+def main():
+    # Get file and load image
+    filename = get_file()
+    image = SimpleImage(filename)
+​
+    # Show the image before the transform
+    image.show()
+​
+    # Apply the filter
+    for pixel in image:
+        pixel.red = pixel.red * 1.5
+        pixel.green = pixel.green * 0.7
+        pixel.blue = pixel.blue * 1.5
+​
+    # Show the image after the transform
+    image.show()
+​
+​
+def get_file():
+    # Read image file path from user, or use the default file
+    filename = input('Enter image file (or press enter for default): ')
+    if filename == '':
+        filename = DEFAULT_FILE
+    return filename
+​
+​
+if __name__ == '__main__':
+    main()
+Q2: Finding Forest Flames
+We’re going to start by writing a function called find_flames (in the file forest_fire.py) that highlights the areas where a forest fire is active. You’re given a satellite image of Greenland’s 2017 fires (photo credit: Stef Lhermitte, Delft University of Technology).
+Your job is to detect all of the “sufficiently red” pixels in the image, which are indicative of where fires are burning in the image. As we did in class with the “redscreening” example, we consider a pixel “sufficiently red” if its red value is greater than or equal to the average of the pixel’s three RGB values times a constant INTENSITY_THRESHOLD.
+Recall the average of a pixel, which has red, green and blue values is:
+average = (red + green + blue) / 3 When you detect a “sufficiently red” pixel in the original image, you set its red value to 255 and its green and blue values to 0. This will highlight the pixel by making it entirely red. For all other pixels (i.e., those that are not “sufficiently red”), you should convert them to their grayscale equivalent, so that we can more easily see where the fire is originating from. You can grayscale a pixel by summing together its red, green, and blue values and dividing by three (finding the average), and then setting the pixel’s red, green, and blue values to all have this same “average” value.
+Two side by side photos of smoke plumes from above. The first photo is a normal image, taken from a satellite, and the right image is the same as the previous except it is black and white and the forest fires are highlighted in red. Original forest fire image on left, and highlighted version of image on right.
+Once you highlight the areas that are on fire in the image (and greyscale all the remaining pixels), you should see an image like that shown on the right in the figure. On the left side of the example image, we should the original image for comparison.
+Note: to make this algorithm work on different images of fire, select an appropriate INTENSITY_THRESHOLD value.
+Problem written by Sonja Johnson-Yu. https://static.us.edusercontent.com/files/9dQ4WljnbDcW3n6DFXUg22QG![image.png](attachment:image.png)
+In [ ]:
+
+from simpleimage import SimpleImage
+​
+INTENSITY_THRESHOLD = 1.0
+DEFAULT_FILE = 'images/greenland-fire.png'
+​
+def find_flames(filename):
+    image = SimpleImage(filename)
+    for pixel in image:
+        average_pixel = (pixel.red + pixel.green + pixel.blue) // 3
+    if pixel.red >= average_pixel * INTENSITY_THRESHOLD:
+        pixel.red = 255
+        pixel.blue = 0 
+        pixel.green = 0
+    else:
+        make_greyscale(pixel)
+​
+def make_greyscale(pixel):
+    grey_average= (pixel.red + pixel.green + pixel.blue)// 3
+    pixel.red = grey_average
+    pixel.green = grey_average
+    pixel.blue = grey_average
+​
+def main():
+    # Get file name from user input
+    filename = get_file()
+​
+    # Show the original fire
+    original_fire = SimpleImage(filename)
+    original_fire.show()
+​
+    # Show the highlighted fire
+    highlighted_fire = find_flames(filename)
+    highlighted_fire.show()
+​
+def get_file():
+    # Read image file path from user, or use the default file
+    filename = input('Enter image file (or press enter for default): ')
+    if filename == '':
+        filename = DEFAULT_FILE
+    return filename
+    if __name__ == '__main__':
+        main()
+In [1]:
+
+from simpleimage import SimpleImage
+​
+DEFAULT_FILE = 'images/mt-rainier.jpg'
+​
+def make_reflected(filename):
+    image = SimpleImage(filename)
+    # TODO: your code here.
+    return image
+​
+def main():
+    # Get file name from user input
+    filename = get_file()
+​
+    # Show the original image
+    original = SimpleImage(filename)
+    original.show()
+​
+    # Show the reflected image
+    reflected = make_reflected(filename)
+    reflected.show()
+​
+def get_file():
+    # Read image file path from user, or use the default file
+    filename = input('Enter image file (or press enter for default): ')
+    if filename == '':
+        filename = DEFAULT_FILE
+    return filename
+​
+if __name__ == '__main__':
+    main()
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+<ipython-input-1-cff188391c87> in <module>
+----> 1 from simpleimage import SimpleImage
+      2 
+      3 DEFAULT_FILE = 'images/mt-rainier.jpg'
+      4 
+      5 def make_reflected(filename):
+
+ModuleNotFoundError: No module named 'simpleimage'
+
+Q3 (optional; medium): Reflection
+Write a function that returns an output image that is twice the height of the original. The top half of the output image should be identical to the original image. The bottom half, however, should look like a reflection of the top half. The highest row in the top half should be “reflected” to be the lowest row in the bottom half. This results in a cool effect.
+Two images. Left image depicts a snowy mountain with a forest in the foreground. Right image is twice as tall; the top half is the same as the left image and the bottom half is the left image reflected across a horizontal axis so that the photo looks like the mountain range is reflected across a lake. Problem written by multiple instructors. We are seeking out the photographer who took this picture.
